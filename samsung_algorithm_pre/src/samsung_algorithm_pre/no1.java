@@ -38,7 +38,6 @@ import java.util.Set;
 //class Solution //제출시 바꾸기
 public class no1
 {
-	static Set<Character> bought = new HashSet<>();
 	
 	public static void main(String args[]) throws Exception
 	{
@@ -75,19 +74,22 @@ public class no1
 				rc[i] = temp.toCharArray();
 			}
 			
-			int num = dfs(0, 0, rc, 0);
+			Set<Character> bought = new HashSet<>();
+			
+			int num = dfs(0, 0, rc, 0, bought);
 			
 			System.out.println("#"+test_case+" "+num);
 			
-			bought.clear();
 		}
 		
 		sc.close();
 	}
 	
-	static int dfs(int m, int n, char[][] rc, int pnum) {
+	static int dfs(int m, int n, char[][] rc, int pnum, Set<Character> pbought) {
 		
 		//bought이 공용이라 처음으로 돌아갔을때 다른애를 고려조차 안하게 되네 ㅏ,,,
+		Set<Character> bought = new HashSet<>(pbought);
+		
 		bought.add(rc[m][n]);
 		int num = pnum;
 		
@@ -104,7 +106,7 @@ public class no1
 				{
 					if(!bought.contains(rc[m-1][n]))
 					{
-						int temp = dfs(m-1, n, rc, num);
+						int temp = dfs(m-1, n, rc, num, bought);
 						
 						if(temp>nnum)
 							nnum = temp;
@@ -117,7 +119,7 @@ public class no1
 				{
 					if(!bought.contains(rc[m][n+1]))
 					{
-						int temp = dfs(m, n+1, rc, num);
+						int temp = dfs(m, n+1, rc, num, bought);
 						
 						if(temp>nnum)
 							nnum = temp;
@@ -130,7 +132,7 @@ public class no1
 				{
 					if(!bought.contains(rc[m+1][n]))
 					{
-						int temp = dfs(m+1, n, rc, num);
+						int temp = dfs(m+1, n, rc, num, bought);
 						
 						if(temp>nnum)
 							nnum = temp;
@@ -143,7 +145,7 @@ public class no1
 				{
 					if(!bought.contains(rc[m][n-1]))
 					{
-						int temp = dfs(m, n-1, rc, num);
+						int temp = dfs(m, n-1, rc, num, bought);
 						
 						if(temp>nnum)
 							nnum = temp;
